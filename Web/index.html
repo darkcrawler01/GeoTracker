@@ -1,0 +1,79 @@
+<!DOCTYPE html>
+<html>
+<head>
+
+	<script type="text/javascript" src="http://cdnjs.cloudflare.com/ajax/libs/jquery/2.0.3/jquery.min.js"></script>
+	<script type="text/javascript" src="http://cdnjs.cloudflare.com/ajax/libs/underscore.js/1.5.1/underscore-min.js"></script>
+	<script type="text/javascript" src="http://cdnjs.cloudflare.com/ajax/libs/backbone.js/1.0.0/backbone-min.js"></script>
+
+	<script type="text/javascript"
+      src="https://maps.googleapis.com/maps/api/js?key=AIzaSyAU05Un-iwE8GQ71a_EsyXRrFDPBxAY7vc&sensor=true">
+    </script>
+    <script type="text/javascript">
+     	function map(){
+     		google.maps.event.addDomListener(window, 'load', initializeMap);
+     	}
+
+      	function initializeMap() {
+      		alert("in");
+        	var mapOptions = {
+          		center: new google.maps.LatLng(34.0266, -118.2831),
+          		zoom: 8,
+          		mapTypeId: google.maps.MapTypeId.ROADMAP
+        	};
+        	var map = new google.maps.Map(document.getElementById("map-canvas"),
+            	mapOptions);
+
+		    for (var i = 0; i < locationResults.length; i++) {
+		      var object = locationResults[i];
+		      alert(object.id + ' - ' + object.get('location').latitude);
+		    }
+      }
+       
+      
+    </script>
+
+
+	<script type="text/javascript" src="http://www.parsecdn.com/js/parse-1.2.8.min.js"></script>
+	<script type="text/javascript">
+		Parse.initialize("df", "f");
+		var locationResults;
+		function parseLogin() {
+			Parse.User.logIn($("#username").val(), $("#password").val(), {
+				success: function(user) {
+					window.location.replace("map.html");
+				},
+				error: function(user, error) {
+					alert('login failed' + error);
+				}
+			});
+			return false;
+		}	
+
+
+	</script>
+
+	
+	<meta name="viewport" content="initial-scale=1.0, user-scalable=no" />
+    <style type="text/css">
+      html { height: 100% }
+      body { height: 100%; margin: 0; padding: 0 }
+      #map-canvas { height: 100% }
+    </style>
+
+</head>
+<body>
+	<form id="bikeform" >
+		<legend>Free Bike Project</legend>
+		<hr/>
+		username : <input type="text" id="username" />
+		<br/>
+		password : <input type="password" id="password" />    
+		<hr/>
+		<button onclick="return parseLogin();" id="parselogin" name="login">Login(Parse Login)</button>
+
+	</form>
+
+    <div id="map-canvas"/>
+</body>
+</html>
